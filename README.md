@@ -134,4 +134,3 @@ Contributions are welcome! Submit issues or pull requests.
 
 ---
 
-✅ Let me know if you need further adjustments!

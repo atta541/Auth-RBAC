@@ -65,15 +65,14 @@ npm start
 ```
 
 ---
-
 ## 🛡️ **Routes & Access**
-| Route                  | Method | Access        | Description                         |
-|------------------------|--------|---------------|-------------------------------------|
-| `/api/users/register`  | POST   | Public        | User registration with email verification |
-| `/api/users/login`     | POST   | Public        | User login after verification      |
-| `/api/users`           | GET    | Admin only    | View all users                      |
-| `/api/users/:id`       | GET    | Authenticated | Get user by ID                      |
-
+| Route                      | Method | Access        | Description                              |
+|----------------------------|--------|---------------|------------------------------------------|
+| `/api/users/register`      | POST   | Public        | User registration with email verification |
+| `/api/users/login`         | POST   | Public        | User login after verification            |
+| `/api/users`               | GET    | Admin only    | View all users                           |
+| `/api/users/:id`           | GET    | Authenticated | Get user by ID                           |
+| `/api/users/verify-email/:token` | GET    | Public        | Verify user email with token              |
 ---
 
 ## 🧑‍💼 **Creating Admin or Super Admin**

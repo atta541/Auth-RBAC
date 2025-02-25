@@ -39,8 +39,8 @@ This project is a **Node.js backend authentication API** that enables users to:
 
 ### 1. **Clone the Repository**
 ```bash
-git clone https://github.com/yourusername/your-repo.git
-cd your-repo
+git clone https://github.com/atta541/Auth-RBAC.git
+cd Auth-RBAC
 ```
 
 ### 2. **Install Dependencies**
@@ -67,12 +67,12 @@ npm start
 ---
 
 ## 🛡️ **Routes & Access**
-| Route             | Method | Access        | Description                   |
-|-------------------|--------|---------------|-------------------------------|
-| `/api/users/register` | POST   | Public        | User registration with email verification |
-| `/api/users/login`    | POST   | Public        | User login after verification |
-| `/api/users`          | GET    | Admin only    | View all users                |
-| `/api/users/:id`      | GET    | Authenticated | Get user by ID               |
+| Route                  | Method | Access        | Description                         |
+|------------------------|--------|---------------|-------------------------------------|
+| `/api/users/register`  | POST   | Public        | User registration with email verification |
+| `/api/users/login`     | POST   | Public        | User login after verification      |
+| `/api/users`           | GET    | Admin only    | View all users                      |
+| `/api/users/:id`       | GET    | Authenticated | Get user by ID                      |
 
 ---
 
@@ -96,12 +96,15 @@ This will create an admin with the specified credentials in the `.env` file.
 
 ## 📄 **.env Example**
 ```env
-MONGO_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
-MAILTRAP_USER=your_mailtrap_user
-MAILTRAP_PASS=your_mailtrap_pass
+PORT=3001
+DB_URL=mongodb://127.0.0.1:27017/student
+JWT_SECRET=your-secret-key
+ADMIN_NAME=admin
 ADMIN_EMAIL=admin@example.com
-ADMIN_PASSWORD=securepassword
+ADMIN_PASSWORD=adminstrongpassword
+# Mailtrap Credentials
+MAIL_USER=your_mailtrap_user
+MAIL_PASS=your_mailtrap_pass
 ```
 
 ---
@@ -115,7 +118,9 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 ---
 
 ## 🙌 **Contact**
-For questions or support, reach out at [your-email@example.com](mailto:your-email@example.com).
+For questions or support, reach out at [attareh542@gmail.com](mailto:attareh542@gmail.com).
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://www.linkedin.com/in/atta-ur-rehman-4104b1181/)
 
 ---
 

@@ -11,15 +11,19 @@ const getUsers = async (req, res) => {
   }
 };
 
+
+
+
 const jwt = require("jsonwebtoken");
+
+const sendVerificationEmail = require("../utils/sendEmail");
+
 const createUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
-    }
+    if (existingUser) return res.status(400).json({ error: "User already exists" });
 
     const userRole = req.user && req.user.role === "admin" ? role : "user";
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -27,11 +31,20 @@ const createUser = async (req, res) => {
     const newUser = new User({ name, email, password: hashedPassword, role: userRole });
     await newUser.save();
 
-    res.status(201).json({ message: "User created successfully", newUser });
+    // Generate verification token
+    const token = jwt.sign({ id: newUser._id }, "your_jwt_secret", { expiresIn: "1d" });
+
+    // Send verification email
+    await sendVerificationEmail(email, token);
+
+    res.status(201).json({ message: "User created. Check your email to verify your account." });
   } catch (error) {
-    res.status(400).json({ error: "Invalid data" }); 
+    console.error(error);
+    res.status(400).json({ error: "Invalid data" });
   }
 };
+
+
 
 // Get a user by ID
 const getUserById = async (req, res) => {
@@ -70,7 +83,11 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
-
+    
+    if (!user.isVerified) {
+      return res.status(400).json({ error: "Email not verified. Check your inbox to verify your email."
+      });
+    }
     // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -112,5 +129,29 @@ const getUser = async (req, res) => {
 };
 
 
+const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const decoded = jwt.verify(token, "your_jwt_secret");
 
-module.exports = { getUsers, createUser, getUserById, deleteUser, loginUser, getUser };
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(400).json({ error: "Invalid token" });
+
+    if (user.isVerified) return res.status(400).json({ error: "Email already verified" });
+
+    user.isVerified = true;
+    await user.save();
+
+    res.status(200).json({ message: "Email verified successfully!" });
+  } catch (error) {
+    res.status(400).json({ error: "Invalid or expired token" });
+  }
+};
+
+// module.exports = { createUser, verifyEmail, getUsers, getUser, loginUser };
+
+
+
+
+
+module.exports = { getUsers, createUser, getUserById, deleteUser, loginUser, getUser ,verifyEmail};
